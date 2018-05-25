@@ -1,8 +1,6 @@
 package forer.drugs;
 
 import java.awt.*;
-import java.io.IOException;
-
 import javax.swing.*;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,24 +11,47 @@ public class DrugView extends JFrame {
 			.addConverterFactory(GsonConverterFactory.create()).build();
 	DrugService service = retrofit.create(DrugService.class);
 
-	private JComboBox<String> drugIDs = new JComboBox<String>();
-
-	public final JComboBox<String> getDrugIDs() {
-		return drugIDs;
+	DrugController controller = new DrugController(service, this);
+	JLabel species = new JLabel();
+	JLabel id = new JLabel();
+	JLabel formula = new JLabel();
+	JLabel weight = new JLabel();
+	JLabel rings = new JLabel();
+	JLabel image = new JLabel();
+	
+	
+	public final JLabel getID() {
+		return id;
 	}
 
-	DrugController controller = new DrugController(service, this);
+	public final JLabel getImage() {
+		return image;
+	}
+
+	public final JLabel getSpecies() {
+		return species;
+	}
+
+	public final JLabel getFormula() {
+		return formula;
+	}
+
+	public final JLabel getWeight() {
+		return weight;
+	}
+
+	public final JLabel getRings() {
+		return rings;
+	}
 
 	public DrugView() {
 
 		setTitle("Approved Drugs");
-		setSize(800, 800);
+		setSize(600, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		controller.requestDrugFeed();
-
 		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setLayout(new BorderLayout());
 
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridBagLayout());
@@ -40,9 +61,9 @@ public class DrugView extends JFrame {
 		constraint.fill = GridBagConstraints.BOTH;
 		constraint.insets = new Insets(3, 2, 3, 2);
 
-		topPanel.add(new JLabel("Select a drug ID: "), constraint);
+		topPanel.add(new JLabel("Search for a drug: "), constraint);
 		constraint.gridy = 1;
-		topPanel.add(new JLabel("   Name: "), constraint);
+		topPanel.add(new JLabel("   ChEMBL ID: "), constraint);
 		constraint.gridy = 2;
 		topPanel.add(new JLabel("   Formula: "), constraint);
 		constraint.gridy = 3;
@@ -55,36 +76,32 @@ public class DrugView extends JFrame {
 		constraint.gridy = 0;
 		constraint.gridx = 1;
 
-		topPanel.add(drugIDs, constraint);
+		JTextField pref_name = new JTextField();
+		topPanel.add(pref_name, constraint);
 		constraint.gridy = 1;
-		JLabel name = new JLabel();
-		topPanel.add(name, constraint);
+		topPanel.add(id, constraint);
 		constraint.gridy = 2;
-		JLabel formula = new JLabel();
 		topPanel.add(formula, constraint);
 		constraint.gridy = 3;
-		JLabel weight = new JLabel();
 		topPanel.add(weight, constraint);
 		constraint.gridy = 4;
-		JLabel species = new JLabel();
 		topPanel.add(species, constraint);
 		constraint.gridy = 5;
-		JLabel rings = new JLabel();
 		topPanel.add(rings, constraint);
+		constraint.gridy = 6;
+		JButton button = new JButton("Find Drug");
+		topPanel.add(button, constraint);
 
-		JLabel image = new JLabel();
+		
 
-		drugIDs.addActionListener(e -> {
-			try {
-				controller.fillInData((String) drugIDs.getSelectedItem(), name, formula, weight, species, rings, image);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+		button.addActionListener(e -> {
+			controller.requestDrugFeed(pref_name.getText());
+
 		});
 
-		mainPanel.add(topPanel);
-		mainPanel.add(image);
-
+		JScrollPane scroll = new JScrollPane(image);
+		mainPanel.add(topPanel, BorderLayout.WEST);
+		mainPanel.add(scroll, BorderLayout.CENTER);
 		add(mainPanel);
 	}
 

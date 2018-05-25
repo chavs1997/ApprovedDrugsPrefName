@@ -15,13 +15,5 @@ public class DrugFeed {
 		return page_meta;
 	}
 
-	public Molecule getMolecule(String id) {
-		for (Molecule mol : molecules) {
-			if (mol.getMolId() == id) {
-				return mol;
-			}
-		}
-		return null;
-	}
-
+	
 }
