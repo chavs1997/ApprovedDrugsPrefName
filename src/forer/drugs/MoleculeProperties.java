@@ -1,6 +1,6 @@
 package forer.drugs;
 
-public class Properties {
+public class MoleculeProperties {
 
 	private int aromatic_rings;
 	private String full_molformula;
@@ -9,7 +9,7 @@ public class Properties {
 
 	
 	
-	public Properties(int aromatic_rings, String full_molformula, String full_mwt, String molecular_species) {
+	public MoleculeProperties(int aromatic_rings, String full_molformula, String full_mwt, String molecular_species) {
 		super();
 		this.aromatic_rings = aromatic_rings;
 		this.full_molformula = full_molformula;

@@ -3,12 +3,12 @@ package forer.drugs;
 public class Molecule {
 
 	private String molecule_chembl_id;
-	private Properties molecule_properties;
+	private MoleculeProperties molecule_properties;
 	private String pref_name;
 
 	
 	
-	public Molecule(String molecule_chembl_id, Properties molecule_properties, String pref_name) {
+	public Molecule(String molecule_chembl_id, MoleculeProperties molecule_properties, String pref_name) {
 		super();
 		this.molecule_chembl_id = molecule_chembl_id;
 		this.molecule_properties = molecule_properties;
@@ -19,7 +19,7 @@ public class Molecule {
 		return molecule_chembl_id;
 	}
 
-	public final Properties getProperties() {
+	public final MoleculeProperties getProperties() {
 		return molecule_properties;
 	}
 

@@ -5,7 +5,7 @@ import retrofit2.http.*;
 
 public interface DrugService {
 
-	@GET
-	Call<DrugFeed> getApprovedDrugs(@Url String drugURL);
+	@GET("/chembl/api/data/molecule?max_phase=4&format=json")
+	Call<DrugFeed> getApprovedDrugs(@Query("pref_name") String prefName);
 
 }

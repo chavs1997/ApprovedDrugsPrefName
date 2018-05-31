@@ -6,8 +6,6 @@ public class DrugFeed {
 
 	private List<Molecule> molecules;
 	private PageInfo page_meta;
-	
-	
 
 	public DrugFeed(List<Molecule> molecules) {
 		super();
@@ -22,5 +20,4 @@ public class DrugFeed {
 		return page_meta;
 	}
 
-	
 }

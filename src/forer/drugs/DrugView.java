@@ -7,17 +7,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @SuppressWarnings("serial")
 public class DrugView extends JFrame {
-	Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.ebi.ac.uk")
-			.addConverterFactory(GsonConverterFactory.create()).build();
-	DrugService service = retrofit.create(DrugService.class);
+	Retrofit retrofit;
+	DrugService service;
 
-	DrugController controller = new DrugController(service, this);
-	JLabel species = new JLabel();
-	JLabel id = new JLabel();
-	JLabel formula = new JLabel();
-	JLabel weight = new JLabel();
-	JLabel rings = new JLabel();
-	JLabel image = new JLabel();
+	DrugController controller;
+	JLabel species;
+	JLabel id;
+	JLabel formula;
+	JLabel weight;
+	JLabel rings;
+	JLabel image;
 
 	public final JLabel getID() {
 		return id;
@@ -44,6 +43,17 @@ public class DrugView extends JFrame {
 	}
 
 	public DrugView() {
+		retrofit = new Retrofit.Builder().baseUrl("https://www.ebi.ac.uk")
+				.addConverterFactory(GsonConverterFactory.create()).build();
+		service = retrofit.create(DrugService.class);
+
+		controller = new DrugController(service, this);
+		species = new JLabel();
+		id = new JLabel();
+		formula = new JLabel();
+		weight = new JLabel();
+		rings = new JLabel();
+		image = new JLabel();
 
 		setTitle("Approved Drugs");
 		setSize(800, 500);

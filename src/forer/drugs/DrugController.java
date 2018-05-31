@@ -19,44 +19,44 @@ public class DrugController {
 	}
 
 	public void requestDrugFeed(String pref_name) {
-		service.getApprovedDrugs(
-				"/chembl/api/data/molecule?max_phase=4&format=json&pref_name=" + pref_name.trim().toUpperCase())
-				.enqueue(new Callback<DrugFeed>() {
+		service.getApprovedDrugs(pref_name.trim().toUpperCase()).enqueue(new Callback<DrugFeed>() {
 
-					@Override
-					public void onFailure(Call<DrugFeed> call, Throwable t) {
-						t.printStackTrace();
+			@Override
+			public void onFailure(Call<DrugFeed> call, Throwable t) {
+				t.printStackTrace();
+			}
+
+			@Override
+			public void onResponse(Call<DrugFeed> call, Response<DrugFeed> response) {
+				DrugFeed feed = response.body();
+				if (!feed.getMolecules().isEmpty()) {
+					try {
+						fillInData(feed, view.getID(), view.getFormula(), view.getWeight(), view.getSpecies(),
+								view.getRings());
+						fillInImage(view.getID());
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
+				} else {
+					view.getImage().setIcon(null);
+					view.getImage().setText(
+							"Sorry; the drug you entered doesn't appear in the approved drugs database. "
+							+ "Please check your spelling and try again.");
+				}
+			}
 
-					@Override
-					public void onResponse(Call<DrugFeed> call, Response<DrugFeed> response) {
-						DrugFeed feed = response.body();
-						if (!feed.getMolecules().isEmpty()) {
-							try {
-								fillInData(feed, view.getID(), view.getFormula(), view.getWeight(), view.getSpecies(),
-										view.getRings());
-								fillInImage(view.getID());
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						} else {
-							view.getImage().setIcon(null);
-							view.getImage().setText(
-									"Sorry; the drug you entered doesn't appear in the approved drugs database. Please check your spelling and try again.");
-						}
-					}
-
-				});
+		});
 	}
 
 	public void fillInData(DrugFeed feed, JLabel id, JLabel formula, JLabel weight, JLabel species, JLabel rings)
 			throws IOException {
 		Molecule mol = feed.getMolecules().get(0);
 		id.setText(mol.getMolId());
-		formula.setText(mol.getProperties().getFormula());
-		weight.setText(mol.getProperties().getWeight());
-		species.setText(mol.getProperties().getSpecies());
-		rings.setText(String.valueOf(mol.getProperties().getRings()));
+		MoleculeProperties molProps = mol.getProperties();
+		formula.setText(molProps.getFormula());
+		weight.setText(molProps.getWeight());
+		species.setText(molProps.getSpecies());
+		rings.setText(String.valueOf(molProps.getRings()));
 
 	}
 
