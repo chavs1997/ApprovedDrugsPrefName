@@ -32,10 +32,16 @@ public class DrugController {
 					@Override
 					public void onResponse(Call<DrugFeed> call, Response<DrugFeed> response) {
 						feed = response.body();
-						try {
-							fillInData(pref_name);
-						} catch (IOException e) {
-							e.printStackTrace();
+						if (!feed.getMolecules().isEmpty()) {
+							try {
+								fillInData(pref_name);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							view.getImage().setIcon(null);
+							view.getImage().setText(
+									"Sorry; the drug you entered doesn't appear in the approved drugs database. Please check your spelling and try again.");
 						}
 					}
 
@@ -54,6 +60,7 @@ public class DrugController {
 	}
 
 	private void fillInImage() throws IOException {
+		view.getImage().setText("");
 		String id = feed.getMolecules().get(0).getMolId();
 		URL url = new URL("https://www.ebi.ac.uk/chembl/api/data/image/" + id + "?format=png");
 		BufferedImage bufImage = ImageIO.read(url);

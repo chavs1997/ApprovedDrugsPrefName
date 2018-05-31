@@ -18,8 +18,7 @@ public class DrugView extends JFrame {
 	JLabel weight = new JLabel();
 	JLabel rings = new JLabel();
 	JLabel image = new JLabel();
-	
-	
+
 	public final JLabel getID() {
 		return id;
 	}
@@ -47,14 +46,16 @@ public class DrugView extends JFrame {
 	public DrugView() {
 
 		setTitle("Approved Drugs");
-		setSize(600, 600);
+		setSize(800, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setBackground(new Color(255, 204, 255));
 
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridBagLayout());
+		topPanel.setBackground(new Color(255, 229, 204));
 		GridBagConstraints constraint = new GridBagConstraints();
 		constraint.gridx = 0;
 		constraint.gridy = 0;
@@ -92,14 +93,13 @@ public class DrugView extends JFrame {
 		JButton button = new JButton("Find Drug");
 		topPanel.add(button, constraint);
 
-		
-
 		button.addActionListener(e -> {
 			controller.requestDrugFeed(pref_name.getText());
 
 		});
 
 		JScrollPane scroll = new JScrollPane(image);
+		scroll.setBackground(new Color(255, 204, 255));
 		mainPanel.add(topPanel, BorderLayout.WEST);
 		mainPanel.add(scroll, BorderLayout.CENTER);
 		add(mainPanel);
