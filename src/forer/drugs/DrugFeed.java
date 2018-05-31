@@ -6,6 +6,13 @@ public class DrugFeed {
 
 	private List<Molecule> molecules;
 	private PageInfo page_meta;
+	
+	
+
+	public DrugFeed(List<Molecule> molecules) {
+		super();
+		this.molecules = molecules;
+	}
 
 	public final List<Molecule> getMolecules() {
 		return molecules;

@@ -7,6 +7,16 @@ public class Properties {
 	private String full_mwt;
 	private String molecular_species;
 
+	
+	
+	public Properties(int aromatic_rings, String full_molformula, String full_mwt, String molecular_species) {
+		super();
+		this.aromatic_rings = aromatic_rings;
+		this.full_molformula = full_molformula;
+		this.full_mwt = full_mwt;
+		this.molecular_species = molecular_species;
+	}
+
 	public final int getRings() {
 		return aromatic_rings;
 	}

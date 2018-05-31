@@ -12,7 +12,6 @@ public class DrugController {
 
 	private DrugView view;
 	private DrugService service;
-	DrugFeed feed;
 
 	public DrugController(DrugService service, DrugView view) {
 		this.view = view;
@@ -31,10 +30,12 @@ public class DrugController {
 
 					@Override
 					public void onResponse(Call<DrugFeed> call, Response<DrugFeed> response) {
-						feed = response.body();
+						DrugFeed feed = response.body();
 						if (!feed.getMolecules().isEmpty()) {
 							try {
-								fillInData(pref_name);
+								fillInData(feed, view.getID(), view.getFormula(), view.getWeight(), view.getSpecies(),
+										view.getRings());
+								fillInImage(view.getID());
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -48,20 +49,20 @@ public class DrugController {
 				});
 	}
 
-	public void fillInData(String selectedItem) throws IOException {
+	public void fillInData(DrugFeed feed, JLabel id, JLabel formula, JLabel weight, JLabel species, JLabel rings)
+			throws IOException {
 		Molecule mol = feed.getMolecules().get(0);
-		view.getID().setText(mol.getMolId());
-		view.getFormula().setText(mol.getProperties().getFormula());
-		view.getWeight().setText(mol.getProperties().getWeight());
-		view.getSpecies().setText(mol.getProperties().getSpecies());
-		view.getRings().setText(String.valueOf(mol.getProperties().getRings()));
-		fillInImage();
+		id.setText(mol.getMolId());
+		formula.setText(mol.getProperties().getFormula());
+		weight.setText(mol.getProperties().getWeight());
+		species.setText(mol.getProperties().getSpecies());
+		rings.setText(String.valueOf(mol.getProperties().getRings()));
 
 	}
 
-	private void fillInImage() throws IOException {
+	private void fillInImage(JLabel molId) throws IOException {
 		view.getImage().setText("");
-		String id = feed.getMolecules().get(0).getMolId();
+		String id = molId.getText().trim();
 		URL url = new URL("https://www.ebi.ac.uk/chembl/api/data/image/" + id + "?format=png");
 		BufferedImage bufImage = ImageIO.read(url);
 		Icon icon = new ImageIcon(bufImage);

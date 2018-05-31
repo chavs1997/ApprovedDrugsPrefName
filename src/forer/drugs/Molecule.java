@@ -6,6 +6,15 @@ public class Molecule {
 	private Properties molecule_properties;
 	private String pref_name;
 
+	
+	
+	public Molecule(String molecule_chembl_id, Properties molecule_properties, String pref_name) {
+		super();
+		this.molecule_chembl_id = molecule_chembl_id;
+		this.molecule_properties = molecule_properties;
+		this.pref_name = pref_name;
+	}
+
 	public final String getMolId() {
 		return molecule_chembl_id;
 	}
